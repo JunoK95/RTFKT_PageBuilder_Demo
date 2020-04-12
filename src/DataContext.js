@@ -7,29 +7,48 @@ function DataContextProvider(props) {
     {
       type: 'text',
       text: "What's Up World",
-      content: <div>What's Up World</div>,
+      width: 300,
+      height: 200,
+      pos_x: 100,
+      pos_y: 150,
       color: '#fff',
+      fontSize: 14,
       backgroundColor: '#11a4ff',
+      zIndex: 0
     },
     {
       type: 'text',
-      text: "What's Up World",
-      content: <div>What's Up World</div>,
-      color: '#ccc',
-      backgroundColor: '#777',
+      text: "What's Up World 2",
+      width: 300,
+      height: 200,
+      pos_x: 200,
+      pos_y: 150,
+      color: '#fff',
+      fontSize: 14,
+      backgroundColor: '#11a4ff',
+      zIndex: 0
     },
   ]);
 
-  const addBlock = (type, content, xpos, ypos, xsize, ysize) => {
-    const newBlockData = {
-      type, 
-      content, 
-      xpos, 
-      ypos, 
-      xsize, 
-      ysize,
+  const addBlock = () => {
+    const defaultBlock = {
+      type: 'text',
+      text: 'text',
+      width: 300,
+      height: 200,
+      pos_x: 0,
+      pos_y: 0,
+      color: '#000',
+      fontSize: 14,
+      backgroundColor: '#fff',
+      zIndex: 0
     }
-    setdata({...data, newBlockData});
+
+    const dataCopy = data;
+    dataCopy.push(defaultBlock);
+    console.log('DataCopy', dataCopy)
+    
+    setdata(dataCopy);
   };
 
   const changeValue = (position, name, value) => {
@@ -43,6 +62,7 @@ function DataContextProvider(props) {
     <DataContext.Provider
       value={{
         data,
+        setdata,
         functions: {
           addBlock,
           changeValue,
