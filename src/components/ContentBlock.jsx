@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react';
 
 function ContentBlock(props) {
   const {item, position, setopen, setselected} = props;

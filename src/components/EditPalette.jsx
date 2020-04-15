@@ -1,12 +1,14 @@
 import React, {useState, useContext} from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import { TextField, InputAdornment, Input, FormHelperText, Collapse, Button, ListItem, ListItemText } from '@material-ui/core';
+import { TextField, Input, FormHelperText, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { CirclePicker } from 'react-color';
 import { DataContext } from '../DataContext';
 import EditPaletteItem from './EditPaletteItem';
+import BasicOptions from './palette/BasicOptions';
+import FormatShapesIcon from '@material-ui/icons/FormatShapes';
 
 function EditPalette(props) {
-  const {open, setopen, selected, update} = props;
+  const {open, setopen, selected, update, handleDelete, page_id} = props;
   const context = useContext(DataContext);
   const {text, color, backgroundColor} = context.data[selected];
   const [values, setvalues] = useState({
@@ -38,81 +40,27 @@ function EditPalette(props) {
       onClose={toggleDrawer(false)}
       onOpen={toggleDrawer(true)}
     >
+      <ListItem>
+        <ListItemIcon><FormatShapesIcon fontSize={'large'} /></ListItemIcon>
+        <ListItemText>RTFKT TEST</ListItemText>
+      </ListItem>
       <EditPaletteItem 
         title={'Basic'} 
         content={
-          <React.Fragment>
-            <div style={styles.colorContainer}>
-              <div style={styles.label}>Position</div>
-              <div style={styles.textFieldContainer}>
-                <Input
-                  value={context.data[selected].pos_x} 
-                  onChange={event => handleChange('pos_x', event.target.value)}
-                  startAdornment={<InputAdornment position='start'>x: </InputAdornment>}
-                  endAdornment={<InputAdornment position="end">px</InputAdornment>}
-                  type={'number'}
-                  inputProps={{
-                    min: "0",
-                  }}
-                  label={'width'}
-                />
-                <FormHelperText id="standard-weight-helper-text">Horizontal</FormHelperText>
-              </div>
-              <div style={styles.textFieldContainer}>
-                <Input
-                  value={context.data[selected].pos_y} 
-                  onChange={event => handleChange('pos_y', event.target.value)}
-                  startAdornment={<InputAdornment position='start'>y: </InputAdornment>}
-                  endAdornment={<InputAdornment position="end">px</InputAdornment>}
-                  type={'number'}
-                  inputProps={{
-                    min: "0",
-                  }}
-                  label={'height'}
-                />
-                <FormHelperText id="standard-weight-helper-text">Vertical</FormHelperText>
-              </div>
-            </div>
-            <div style={styles.colorContainer}>
-              <div style={styles.label}>Size</div>
-              <div style={styles.textFieldContainer}>
-                <Input
-                  value={context.data[selected].width} 
-                  onChange={event => handleChange('width', event.target.value)}
-                  startAdornment={<InputAdornment position='start'>w: </InputAdornment>}
-                  endAdornment={<InputAdornment position="end">px</InputAdornment>}
-                  type={'number'}
-                  inputProps={{
-                    min: "1",
-                  }}
-                  label={'width'}
-                />
-                <FormHelperText id="standard-weight-helper-text">Width</FormHelperText>
-              </div>
-              <div style={styles.textFieldContainer}>
-                <Input
-                  value={context.data[selected].height} 
-                  onChange={event => handleChange('height', event.target.value)}
-                  startAdornment={<InputAdornment position='start'>h: </InputAdornment>}
-                  endAdornment={<InputAdornment position="end">px</InputAdornment>}
-                  type={'number'}
-                  inputProps={{
-                    min: "1",
-                  }}
-                  label={'height'}
-                />
-                <FormHelperText id="standard-weight-helper-text">Height</FormHelperText>
-              </div>
-            </div>
-          </React.Fragment>
-          } 
+          <BasicOptions handleChange={handleChange} selected={selected} />
+        }
       />
       <EditPaletteItem 
         title={'Background'} 
         content={
           <div style={styles.colorContainer}>
             <div style={styles.label}>Background Color</div>
-            <CirclePicker onChange={color => handleChange('backgroundColor', color.hex)} />
+            <CirclePicker 
+              colors={
+                ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#795548", "#607d8b", 'black', 'white', 'white', 'white', 'white', 'white']
+              } 
+              onChange={color => handleChange('backgroundColor', color.hex)} 
+            />
           </div>
         } 
       />
@@ -140,21 +88,18 @@ function EditPalette(props) {
             </div>
             <div style={styles.colorContainer}>
               <div style={styles.label}>Text Color</div>
-              <CirclePicker onChange={color => handleChange('color', color.hex)} />
+              <CirclePicker 
+                colors={
+                  ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#795548", "#607d8b", 'black', 'white', 'white', 'white', 'white', 'white']
+                }
+                onChange={color => handleChange('color', color.hex)} />
             </div>
           </React.Fragment>
         }
       />
-      <EditPaletteItem
-        title={'Other'}
-        content={
-          <div style={styles.colorContainer}>
-            <ListItem button onClick={() => {}}>
-              <ListItemText>DELETE</ListItemText>
-            </ListItem>
-          </div>
-        }
-      />
+      <ListItem button onClick={() => {handleDelete(selected)}}>
+        <ListItemText>DELETE</ListItemText>
+      </ListItem>
     </SwipeableDrawer>
   )
 }

@@ -1,23 +1,44 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { DataContext } from '../DataContext';
 import ContentBlock from '../components/ContentBlock.jsx';
 import EditPalette from '../components/EditPalette.jsx';
 import { IconButton } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SaveIcon from '@material-ui/icons/Save';
 
 const EditPage = props => {
   const [EditOpen, setEditOpen] = useState(false);
   const [selected, setselected] = useState(0);
+  const [fetching, setfetching] = useState(false);
   const [, updateState] = React.useState();
   const forceUpdate = useCallback(() => updateState({}), []);
   const context = useContext(DataContext);
   const {data, functions} = context;
+  const {id} = props.match.params;
+
+  useEffect(() => {
+    setfetching(true);
+    const fetchData = async () => {
+      console.log(id);
+      await functions.initializeData(id);
+      setfetching(false);
+    }
+    fetchData();
+  }, [])
 
   const handleAdd = () => {
     functions.addBlock();
     setselected(data.length - 1);
+    forceUpdate();
   }
 
+  const handleDelete = () => {
+    setEditOpen(false);
+    functions.deleteBlock(selected);
+    setselected(0);
+  }
+
+  
   const content = data.map((item, i) => {
     console.log(item)
     return (
@@ -30,14 +51,30 @@ const EditPage = props => {
       />
     )
   })
-        
+  
+  if (fetching) {
+    return (
+      <div>
+        Loading...
+      </div>
+    );
+  }
   return (
     <React.Fragment>
-      {content}
-      <EditPalette open={EditOpen} setopen={setEditOpen} selected={selected} update={forceUpdate} />
-      <IconButton style={styles.addButton} aria-label="delete" onClick={handleAdd}>
-        <AddCircleIcon fontSize="large" />
-      </IconButton>
+      {content.length > 0 &&
+        <React.Fragment>
+          {content}
+          <EditPalette open={EditOpen} setopen={setEditOpen} selected={selected} update={forceUpdate} handleDelete={handleDelete} page_id={id} />
+        </React.Fragment>
+      }
+      <div style={styles.addButton}>
+        <IconButton aria-label="save" onClick={() => context.functions.saveData(id)}>
+          <SaveIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="delete" onClick={handleAdd}>
+          <AddCircleIcon fontSize="large" />
+        </IconButton>
+      </div>
     </React.Fragment>
   )
 }
