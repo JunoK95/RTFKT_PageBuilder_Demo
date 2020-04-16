@@ -10,16 +10,15 @@ const db = admin.firestore();
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 
 exports.saveData = functions.https.onRequest((request, response) => {
   cors(request, response, async () => {
     try {
-      const {page_id, data} = request.body;
+      const {page_id, data, title} = request.body;
       console.log(page_id, data)
       await db.collection('pages')
         .doc(page_id)
-        .set({data, last_updated: moment().unix()})
+        .set({data, last_updated: moment().unix(), title})
       response.status(200).send('successfully saved')
     } catch (error) {
       response.status(500).send(error);

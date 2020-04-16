@@ -46,6 +46,7 @@ function HomePage() {
         </Typography>
       </AppBar>
       <h2>Welcome to RTFKT Test Page Builder Demo</h2>
+      <p>Create a new page or check out any of these pages!</p>
       <div style={{display: 'inline'}}>
         <LinkCard title={'Create New Page'} />
         {fetch ? <div>loading...</div> : cards}

@@ -8,7 +8,7 @@ import BasicOptions from './palette/BasicOptions';
 import FormatShapesIcon from '@material-ui/icons/FormatShapes';
 
 function EditPalette(props) {
-  const {open, setopen, selected, update, handleDelete, page_id} = props;
+  const {open, setopen, selected, update, handleDelete} = props;
   const context = useContext(DataContext);
   const {text, color, backgroundColor} = context.data[selected];
   const [values, setvalues] = useState({

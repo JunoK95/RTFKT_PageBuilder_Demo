@@ -4,6 +4,7 @@ import Axios from 'axios';
 export const DataContext = createContext();
 
 function DataContextProvider(props) {
+  const [title, settitle] = useState('');
   const [data, setdata] = useState([
     {
       type: 'text',
@@ -38,7 +39,8 @@ function DataContextProvider(props) {
       params: {page_id},
       url: 'https://us-central1-rtfkt-pagebuilder.cloudfunctions.net/getRequestData',
     }).then(res => {
-      setdata(res.data.data)
+      settitle(res.data.title);
+      setdata(res.data.data);
       return;
     }).catch(() => {
       setdata(defaultData)
@@ -48,12 +50,13 @@ function DataContextProvider(props) {
     return true;
   }
 
-  const saveData = async page_id => {
+  const saveData = async (page_id, title) => {
     await Axios({
       method: 'POST',
       data: {
         page_id,
         data,
+        title,
       },
       url: 'https://us-central1-rtfkt-pagebuilder.cloudfunctions.net/saveData',
     })
@@ -97,6 +100,7 @@ function DataContextProvider(props) {
     <DataContext.Provider
       value={{
         data,
+        title,
         setdata,
         functions: {
           addBlock,

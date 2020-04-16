@@ -4,7 +4,7 @@ import ContentBlock from '../components/ContentBlock.jsx';
 import EditPalette from '../components/EditPalette.jsx';
 import { IconButton } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveMenu from '../components/SaveMenu';
 
 const EditPage = props => {
   const [EditOpen, setEditOpen] = useState(false);
@@ -37,7 +37,6 @@ const EditPage = props => {
     functions.deleteBlock(selected);
     setselected(0);
   }
-
   
   const content = data.map((item, i) => {
     console.log(item)
@@ -68,9 +67,7 @@ const EditPage = props => {
         </React.Fragment>
       }
       <div style={styles.addButton}>
-        <IconButton aria-label="save" onClick={() => context.functions.saveData(id)}>
-          <SaveIcon fontSize="large" />
-        </IconButton>
+        <SaveMenu id={id} selected={selected} />
         <IconButton aria-label="delete" onClick={handleAdd}>
           <AddCircleIcon fontSize="large" />
         </IconButton>
