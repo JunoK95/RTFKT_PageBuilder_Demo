@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import {
   Provider,
-  Field,
-  fields
 } from './Pages/ExamplePage';
-import Header from './Header';
 import './App.css';
 import DataContextProvider from './DataContext';
 import EditPage from './Pages/EditPage';

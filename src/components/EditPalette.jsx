@@ -97,6 +97,24 @@ function EditPalette(props) {
           </React.Fragment>
         }
       />
+      <EditPaletteItem
+        title={'Image'}
+        content={
+          <div style={styles.colorContainer}>
+            <div style={styles.textFieldContainer}>
+                <Input
+                  value={context.data[selected].img} 
+                  onChange={event => handleChange('img', event.target.value)}
+                  label={'Image Url'}
+                  inputProps={{
+                    min: "1",
+                  }}
+                />
+                <FormHelperText id="standard-weight-helper-text">Image URL</FormHelperText>
+              </div>
+          </div>
+        }
+      />
       <ListItem button onClick={() => {handleDelete(selected)}}>
         <ListItemText>DELETE</ListItemText>
       </ListItem>

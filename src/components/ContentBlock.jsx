@@ -9,7 +9,8 @@ function ContentBlock(props) {
     color,
     fontSize,
     backgroundColor,
-    zIndex} = item;
+    zIndex,
+    img} = item;
 
   const handleClick = () => {
     setopen(true);
@@ -33,6 +34,7 @@ function ContentBlock(props) {
       } 
       onClick={handleClick}>
       <div style={{...styles.textBox, color: color}}>{item.text}</div>
+      {(img && img !== '') && <img style={{width: '100%', height: 'auto'}} src={img} alt={''} />}
     </div>
   )
 }
